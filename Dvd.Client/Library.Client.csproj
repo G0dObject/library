@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Public\Dvd.png" />
+    <None Remove="Public\Eye.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspose.Words" Version="22.11.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.9" />
+    <PackageReference Include="Microsoft.Office.Interop.Word" Version="15.0.4797.1004" />
+    <PackageReference Include="ReactiveValidation" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Dvd.Application\Library.Application.csproj" />
+    <ProjectReference Include="..\Dvd.Domain\Library.Domain.csproj" />
+    <ProjectReference Include="..\Dvd.Persistent\Library.Persistent.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Public\Dvd.png" />
+    <Resource Include="Public\Eye.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\Authentication.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
+</Project>
