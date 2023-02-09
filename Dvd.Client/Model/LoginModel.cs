@@ -27,7 +27,7 @@ namespace Library.Client.Model
 							Error = "Password must contain six letters";
 						}
 						break;
-					
+
 					default:
 						break;
 				}

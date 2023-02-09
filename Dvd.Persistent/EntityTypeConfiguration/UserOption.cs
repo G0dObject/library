@@ -11,6 +11,7 @@ namespace Library.Persistent.EntityTypeConfiguration
 			_ = builder.HasKey(u => u.Id);
 			_ = builder.Property(u => u.UserName).IsRequired();
 			_ = builder.Property(u => u.Password).IsRequired();
+
 		}
 	}
 }

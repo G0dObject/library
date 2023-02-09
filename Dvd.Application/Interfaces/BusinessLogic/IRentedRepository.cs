@@ -3,7 +3,7 @@ using Library.Domain.Entity.Tables;
 
 namespace Library.Application.Interfaces.BusinessLogic
 {
-	public interface IDiskRepository : IGenericRepository<Disk>
+	public interface IRentedRepository : IGenericRepository<Rented>
 	{
 
 	}

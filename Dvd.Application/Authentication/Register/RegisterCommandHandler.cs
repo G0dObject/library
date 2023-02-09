@@ -20,8 +20,8 @@ namespace Library.Application.Authentication.Register
 				Password = request.Password,
 				Role = await _unitOfWork.Authorization.GetDefaultRole()
 			};
-			
-			var result = _unitOfWork.Authorization.CreateAsync(current);
+
+			Task<User> result = _unitOfWork.Authorization.CreateAsync(current);
 			return result.Id;
 		}
 	}

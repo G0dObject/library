@@ -2,11 +2,11 @@
 {
 	public static class Initializer
 	{
-		public static async Task Initialize(this Context context)
+		public static void Initialize(this Context context)
 		{
-			//_ = await context.Database.EnsureDeletedAsync();
+			_ = context.Database.EnsureCreated();
 
-			_ = await context.Database.EnsureCreatedAsync();
+			_ = context.Database.EnsureCreated();
 		}
 	}
 }

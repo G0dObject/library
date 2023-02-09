@@ -7,7 +7,7 @@ namespace Library.Application.Interfaces
 	{
 		public DbSet<User>? Users { get; set; }
 		public DbSet<Role>? Roles { get; set; }
-		public DbSet<Disk>? Disks { get; set; }
+		public DbSet<Book>? Books { get; set; }
 		public DbSet<Rented>? Renteds { get; set; }
 	}
 }

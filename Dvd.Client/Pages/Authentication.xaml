@@ -4,28 +4,30 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:local="clr-namespace:Client.Pages"
+		
 		xmlns:controls="http://metro.mahapps.com/winf/xaml/controls"
 		mc:Ignorable="d"
 		Title="Authentication" Height="1080" Width="1920
 " WindowStartupLocation="CenterScreen" WindowStyle="None" WindowState="Maximized">
 	<Grid>
-		<Image Margin="0,0,955,0" Source="/Public/Library.png" Stretch="Fill"/>
+		<Image Margin="0,0,955,0" Source="/Public/Library.png" Stretch="Fill" StretchDirection="DownOnly"/>
 
-		<Grid  Panel.ZIndex="-1" Height="1080" Margin="965,0,0,0" VerticalAlignment="Center">
+		<Grid  Panel.ZIndex="-1" Height="1080" Margin="960,0,0,0" VerticalAlignment="Center">
 			<Grid.Background>
 				<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-					<GradientStop Color="#FF130727" Offset="0.04"/>
-					<GradientStop Color="#FF2A0F58" Offset="1"/>
+					<GradientStop Color="#FF0E906C" Offset="0.04"/>
+					<GradientStop Color="#FF295178" Offset="1"/>
+					<GradientStop Color="#FF197471" Offset="0.463"/>
 				</LinearGradientBrush>
 			</Grid.Background>
 
 
 			<Grid Name="Register">
-				<Label Height="100px" Foreground="White" Content="Register" FontSize="60px" Margin="361,76,320,904" />
+				<Label Height="100px" Foreground="White" Content="Регистрация" FontSize="60px" Margin="285,75,285,905" />
 
-				<Label Visibility="Visible" Foreground="White" Content="USERNAME" FontSize="30px" Margin="100,164,659,862" RenderTransformOrigin="0.541,0.16" />
+				<Label Visibility="Visible" Foreground="White" Content="Логин" FontSize="30px" Margin="100,164,659,862" RenderTransformOrigin="0.541,0.16" />
 				<TextBox  Name="RUsername" Width="755" HorizontalAlignment="Center" BorderThickness="1"  Foreground="White" FontSize="60px" Background="Transparent" BorderBrush="WhiteSmoke" VerticalAlignment="Top" CaretBrush="Transparent" Margin="100,219,100,0" Validation.ErrorTemplate="{StaticResource validationFailed}" >
-					<Binding Path="UserName">
+					<Binding Path="UserName" >
 						<Binding.ValidationRules>
 							<ExceptionValidationRule/>
 							<DataErrorValidationRule/>
@@ -33,7 +35,7 @@
 					</Binding>
 				</TextBox>
 
-				<Label Foreground="White" Content="PASSWORD" FontSize="30px" Margin="100,307,633,719" RenderTransformOrigin="0.541,0.16" />
+				<Label Foreground="White" Content="Пароль" FontSize="30px" Margin="100,307,633,719" RenderTransformOrigin="0.541,0.16" />
 				<Grid Margin="100,367,100,630" VerticalAlignment="Center">
 					<TextBox  x:Name="RPassword"  Width="755" HorizontalAlignment="Center" BorderThickness="1"  Foreground="White" FontSize="60px" Background="Transparent" BorderBrush="WhiteSmoke" VerticalAlignment="Top" CaretBrush="Transparent"  Validation.ErrorTemplate="{StaticResource validationFailed}">
 						<Binding Path="Password">
@@ -45,7 +47,7 @@
 					</TextBox>
 				</Grid>
 
-				<Label Foreground="White" Content="CONFIRM PASSWORD" FontSize="30px" Margin="100,455,463,571" RenderTransformOrigin="0.541,0.16" />
+				<Label Foreground="White" Content="Подтверждение пароля" FontSize="30px" Margin="100,455,463,571" RenderTransformOrigin="0.541,0.16" />
 				<Grid Margin="100,515,100,486">
 					<TextBox  x:Name="RPasswordConfirm"  Width="755" HorizontalAlignment="Center" BorderThickness="1"  Foreground="White" FontSize="60px" Background="Transparent" BorderBrush="WhiteSmoke" VerticalAlignment="Top" CaretBrush="Transparent"  Validation.ErrorTemplate="{StaticResource validationFailed}">
 						<Binding Path="PasswordConfirm">
@@ -59,7 +61,7 @@
 				
 				<Grid Margin="100,653,100,348"/>
 
-				<Button Content="Create Account" HorizontalAlignment="Center" Margin="0,799,0,0" Background="#2be4c4" Foreground="White" FontSize="30px" VerticalAlignment="Top" Height="116" Width="725" Click="RegistrationButton"/>
+				<Button Content="Создать аккаунт" HorizontalAlignment="Center" Margin="0,799,0,0" Background="#FF3874B1" Foreground="White" FontSize="30px" VerticalAlignment="Top" Height="116" Width="725" Click="RegistrationButton"/>
 				
 				<Label Name="RURequired" Visibility="Hidden" Foreground="Red"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="275,175,0,0" VerticalAlignment="Top" Content="[required]" Height="32" Width="86" FontSize="16" RenderTransformOrigin="-0.628,0.531"/>
 				<Label Name="RPRequired" Visibility="Hidden" Foreground="Red"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="275,318,0,0" VerticalAlignment="Top" Content="[required]" Height="32" Width="86" FontSize="16" RenderTransformOrigin="-0.628,0.531"/>
@@ -67,9 +69,9 @@
 			</Grid>
 
 			<Grid Name="Login" Visibility="Hidden">
-				<Label Height="100px" HorizontalAlignment="Left"  Foreground="White" Content="Login" FontSize="60px" Margin="351,75,0,905" Width="222"/>
+				<Label Height="100px" HorizontalAlignment="Left"  Foreground="White" Content="Войти" FontSize="60px" Margin="351,75,0,905" Width="222"/>
 
-				<Label Foreground="White" Content="USERNAME" FontSize="30px" Margin="100,164,659,862" RenderTransformOrigin="0.541,0.16" />
+				<Label Foreground="White" Content="Логин" FontSize="30px" Margin="100,164,659,862" RenderTransformOrigin="0.541,0.16" />
 				<TextBox  Name="LUsername" Width="755" HorizontalAlignment="Center" BorderThickness="1"  Foreground="White" FontSize="60px" Background="Transparent" BorderBrush="WhiteSmoke" VerticalAlignment="Top" CaretBrush="Transparent" Margin="100,219,100,0" Validation.ErrorTemplate="{StaticResource validationFailed}" >
 					<Binding Path="UserName">
 						<Binding.ValidationRules>
@@ -78,9 +80,9 @@
 					</Binding>
 				</TextBox>
 
-				<Label Foreground="White" Content="PASSWORD" FontSize="30px" Margin="100,307,633,719" RenderTransformOrigin="0.541,0.16" />
+				<Label Foreground="White" Content="Пароль" FontSize="30px" Margin="100,307,633,719" RenderTransformOrigin="0.541,0.16" />
 				<Grid Margin="100,367,100,630" VerticalAlignment="Center">
-					<TextBox Name="LPassword" Width="755" HorizontalAlignment="Center" BorderThickness="1"  Foreground="White" FontSize="60px" Background="Transparent" BorderBrush="WhiteSmoke" VerticalAlignment="Center" CaretBrush="Transparent" Validation.ErrorTemplate="{StaticResource validationFailed}">
+					<TextBox Name="LPassword" Width="755"  HorizontalAlignment="Center" BorderThickness="1"  Foreground="White" FontSize="60px" Background="Transparent" BorderBrush="WhiteSmoke" VerticalAlignment="Center" CaretBrush="Transparent" Validation.ErrorTemplate="{StaticResource validationFailed}">
 						<Binding Path="Password">
 							<Binding.ValidationRules>
 								<ExceptionValidationRule/>
@@ -89,11 +91,11 @@
 						</Binding>
 					</TextBox>
 				</Grid>
-				<Button Content="Log in to Account" HorizontalAlignment="Center" Margin="0,799,0,0" Background="#2be4c4" Foreground="White" FontSize="30px" VerticalAlignment="Top" Height="116" Width="725" Click="LoginButton"/>
+				<Button Content="Войти в аккаунт" HorizontalAlignment="Center" Margin="0,799,0,0" Background="#FF3874B1" Foreground="White" FontSize="30px" VerticalAlignment="Top" Height="116" Width="725" Click="LoginButton"/>
 				<Label Name="LURequired" Visibility="Hidden" Foreground="Red"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="275,175,0,0" VerticalAlignment="Top" Content="[required]" Height="32" Width="86" FontSize="16" RenderTransformOrigin="-0.628,0.531"/>
 				<Label Name="LPRequired" Visibility="Hidden" Foreground="Red"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="275,318,0,0" VerticalAlignment="Top" Content="[required]" Height="32" Width="86" FontSize="16" RenderTransformOrigin="-0.628,0.531"/>
 			</Grid>
-			<Button Name="SwapButton" Width="Auto" Content="Login" Foreground="White" BorderThickness="0" Background="Transparent"  FontSize="25" Margin="763,101,90,930" Click="SwapMode" />
+			<Button Name="SwapButton" Width="Auto" Content="Войти" Foreground="White" BorderThickness="0" Background="Transparent"  FontSize="25" Margin="729,110,72,921" Click="SwapMode" />
 		</Grid>
 	</Grid>
 </Window>

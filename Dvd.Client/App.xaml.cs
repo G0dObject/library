@@ -1,6 +1,4 @@
-﻿using Library.Persistent;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 
 namespace Library.Client
 {

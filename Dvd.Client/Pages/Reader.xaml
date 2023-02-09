@@ -1,0 +1,43 @@
+﻿<Window x:Class="Library.Client.Pages.Reader"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Library.Client.Pages"
+        mc:Ignorable="d"
+        Title="Reader" Height="1080" Width="1920" WindowStartupLocation="CenterScreen" WindowStyle="None" WindowState="Maximized">
+	<Grid Margin="0,0,0,0">
+		<Grid Margin="0,0,0,0">
+			<DataGrid FontSize="30" CanUserResizeColumns="False" Name="datagrid" BorderBrush="#FF07CAC1" Background="#FF07CAC1" HorizontalAlignment="Left" Width="867"  >
+				<DataGrid.Columns>
+					<DataGridTextColumn Binding="{Binding Path=Name}" Header="Название" Width="200"/>
+					<DataGridTextColumn Binding="{Binding Path=Description}" Header="Описание" Width="200"/>
+					<DataGridTextColumn Binding="{Binding Path=InStock}" Header="Наличие" Width="*"/>
+
+					<DataGridTemplateColumn  Header="Получить" Width="200" x:Name="AddButtonColumn">
+						<DataGridTemplateColumn.CellTemplate >
+							<DataTemplate>
+								<Button  Height="auto" Width="200" Content="Добавить" IsEnabled="{Binding Path=InStock}" Click="Button_Click" />
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn >
+						<DataGridTemplateColumn.Header>
+							<Button BorderThickness="0" Content="🔃"  FontSize="30" HorizontalAlignment="Left"  VerticalAlignment="Top" Height="49" RenderTransformOrigin="0.58,0.586" Width="49" Click="LoadData_Click" Background="{x:Null}"/>
+						</DataGridTemplateColumn.Header>
+					</DataGridTemplateColumn>
+				</DataGrid.Columns>
+			</DataGrid>
+			<Button Content="Оформить аренду" FontSize="30" HorizontalAlignment="Left" Margin="1407,947,0,0" VerticalAlignment="Top" Height="98" Width="338" Click="Button_Click_2"/>
+		</Grid>
+
+		<DataGrid Name="CartGrid" Margin="960,54,175,233"  >
+			<DataGrid.Columns >
+				<DataGridTextColumn Width="*" CanUserResize="False" IsReadOnly="True" Binding="{Binding Path=Name}" FontSize="30"  Header="Название"  />
+			</DataGrid.Columns>
+		</DataGrid>
+		<Button Content="Печатать" FontSize="30" HorizontalAlignment="Left" Margin="960,947,0,0" VerticalAlignment="Top" Height="98" Width="336" Click="Button_Click_1"/>
+		<Button Content="Выход" FontSize="30" HorizontalAlignment="Left" Margin="1819,0,0,0" VerticalAlignment="Top" Height="101" Width="101" RenderTransformOrigin="1.04,0.564" Click="Button_Click_3"/>
+
+	</Grid>
+</Window>

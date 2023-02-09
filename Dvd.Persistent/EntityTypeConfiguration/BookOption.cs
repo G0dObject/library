@@ -4,12 +4,14 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Library.Persistent.EntityTypeConfiguration
 {
-	internal class RoleOption : IEntityTypeConfiguration<Role>
+	internal class BookOption : IEntityTypeConfiguration<Book>
 	{
-		public void Configure(EntityTypeBuilder<Role> builder)
+		public void Configure(EntityTypeBuilder<Book> builder)
 		{
 			_ = builder.HasKey(r => r.Id);
 			_ = builder.Property(r => r.Name);
+			_ = builder.Property(r => r.InStock).HasDefaultValue(false);
+			_ = builder.Property(r => r.Description);
 		}
 	}
 }

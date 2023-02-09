@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace Library.Client.Model
 {
-	public class DiskModel : INotifyPropertyChanged
+	public class BookModel : INotifyPropertyChanged
 	{
 		public string? Id
 		{
@@ -21,20 +21,21 @@ namespace Library.Client.Model
 				OnPropertyChanged(nameof(Name));
 			}
 		}
-		public string? AgeCategory
+		public string? Description
 		{
-			get => AgeCategory; set
+			get => Description; set
 			{
-				AgeCategory = value;
-				OnPropertyChanged(nameof(AgeCategory));
+				Description = value;
+				OnPropertyChanged(nameof(Description));
 			}
 		}
-		public bool IsTaken
+		public bool InStock
 		{
-			get => IsTaken; set
+			get => InStock;
+			set
 			{
-				IsTaken = value;
-				OnPropertyChanged(nameof(IsTaken));
+				InStock = value;
+				OnPropertyChanged(nameof(InStock));
 			}
 		}
 

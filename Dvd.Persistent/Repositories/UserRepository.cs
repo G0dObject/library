@@ -4,13 +4,10 @@ using Library.Persistent.Repositories.Base;
 
 namespace Library.Persistent.Repositories
 {
-	public class DiskReposotory : GenericRepository<Disk>, IDiskRepository
+	internal class UserRepository : GenericRepository<User>, IUserRepository
 	{
-		private new readonly Context _context;
-		public DiskReposotory(Context context) : base(context)
+		public UserRepository(Context context) : base(context)
 		{
-			_context = context;
 		}
-
 	}
 }

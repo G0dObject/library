@@ -18,7 +18,7 @@ namespace Library.Persistent.Repositories
 		{
 			if (Exist("Admin1").Result == false)
 			{
-				await _context!.Users!.AddAsync(new User
+				_ = await _context!.Users!.AddAsync(new User
 				{
 					Role = new Role
 					{ Name = "Admin" }
@@ -26,7 +26,7 @@ namespace Library.Persistent.Repositories
 					Password = "Admin1",
 					UserName = "Admin1"
 				});
-				await _context!.SaveChangesAsync();
+				_ = await _context!.SaveChangesAsync();
 			}
 		}
 
@@ -42,17 +42,13 @@ namespace Library.Persistent.Repositories
 		}
 		public async Task<bool> Exist(string name)
 		{
-			var c = await _context!.Users!.FirstOrDefaultAsync(u => u.UserName == name);
-			if (c == null)
-			{
-				return false;
-			}
-			return true;
+			User? c = await _context!.Users!.FirstOrDefaultAsync(u => u.UserName == name);
+			return c != null;
 		}
 		public async Task<Role> GetRole(int id)
 		{
 			await _context!.Roles!.LoadAsync();
-			var user = await _context!.Users!.FirstOrDefaultAsync(u => u.Id == id);
+			User? user = await _context!.Users!.FirstOrDefaultAsync(u => u.Id == id);
 			return user!.Role ?? throw new NullReferenceException();
 		}
 	}

@@ -9,6 +9,7 @@ namespace Library.Persistent.Repositories.Base
 		public GenericRepository(Context context)
 		{
 			_context = context;
+
 		}
 		public async Task<T> CreateAsync(T entity)
 		{
@@ -18,10 +19,20 @@ namespace Library.Persistent.Repositories.Base
 			return entity;
 		}
 
-		public Task Delete(T entity)
+		public async Task<T> CreateOrUpdateAsync(T entity)
+		{
+			if (_context.Set<T>().Contains(entity))
+				await UpdateAsync(entity);
+			else
+				await CreateAsync(entity);
+			await _context.SaveChangesAsync();
+			return entity;
+		}
+
+		public async Task Delete(T entity)
 		{
 			_ = _context.Remove(entity);
-			return Task.CompletedTask;
+			await _context.SaveChangesAsync();
 		}
 
 		public async Task<T?> FirstAsync()
@@ -31,7 +42,9 @@ namespace Library.Persistent.Repositories.Base
 
 		public virtual Task<List<T>> GetAllAsync()
 		{
-			return _context.Set<T>().ToListAsync();
+			DbSet<T> g = _context.Set<T>();
+			g.Load();
+			return g.ToListAsync();
 		}
 		public virtual async Task<T?> GetByIdAsync(int id)
 		{
@@ -43,9 +56,10 @@ namespace Library.Persistent.Repositories.Base
 			throw new NotImplementedException();
 		}
 
-		public Task UpdateAsync(T entity)
+		public async Task UpdateAsync(T entity)
 		{
-			return Task.FromResult(entity);
+			_context.Update<T>(entity);
+			await _context.SaveChangesAsync();
 		}
 	}
 }

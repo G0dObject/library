@@ -1,0 +1,29 @@
+﻿<Window x:Class="Library.Client.Pages.Admin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Library.Client.Pages"  		
+		xmlns:syncfusion="http://schemas.syncfusion.com/wpf" xmlns:tables="clr-namespace:Library.Domain.Entity.Tables;assembly=Library.Domain"
+		mc:Ignorable="d"
+        Title="Admin" Height="1080" Width="1920" WindowStartupLocation="CenterScreen" WindowStyle="None" WindowState ="Maximized">
+	<Grid >
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition/>
+		</Grid.ColumnDefinitions>
+		<ComboBox HorizontalAlignment="Left" Background="AliceBlue" FontSize="25" Margin="1438,10,0,0" VerticalAlignment="Top" Width="278" SelectedIndex="0" Height="52" Visibility="Visible" RenderTransformOrigin="0.504,0.5" SelectionChanged="ComboBox_SelectionChanged" >
+			<ComboBoxItem Content="Книги" Name="ComboBook"/>
+			<ComboBoxItem Content="Заказы"  Name="ComboRented"/>
+			<ComboBoxItem Content="Пользователь"  Name="ComboUser"/>
+			<ComboBoxItem Content="Роли"  Name="ComboRole"/>
+		</ComboBox>
+		<DataGrid Name="datagrid"  EnableRowVirtualization="True"  Margin="10,0,667,0"  PreviewKeyDown="datagrid_KeyDown" CanUserDeleteRows="False" RowEditEnding="datagrid_RowEditEnding_1" >
+			<DataGrid.Columns>
+				
+			</DataGrid.Columns>
+		</DataGrid>
+		
+		<Button Content="Выход" FontSize="30" HorizontalAlignment="Left" Margin="1819,0,0,0" VerticalAlignment="Top" Height="101" Width="101" RenderTransformOrigin="1.04,0.564" Click="Button_Click"/>
+
+	</Grid>
+</Window>

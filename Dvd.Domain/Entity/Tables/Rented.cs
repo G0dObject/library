@@ -7,6 +7,11 @@ namespace Library.Domain.Entity.Tables
 		public DateTime TakeTime { get; set; }
 		public DateTime DeliveryTime { get; set; }
 		public User User { get; set; }
-		public Disk Disk { get; set; }
+		public Book Book { get; set; }
+
+		public override string ToString()
+		{
+			return base.ToString();
+		}
 	}
 }

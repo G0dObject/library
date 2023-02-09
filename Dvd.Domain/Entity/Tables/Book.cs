@@ -2,15 +2,16 @@
 
 namespace Library.Domain.Entity.Tables
 {
-	public class Role : EntityBase
+	public class Book : EntityBase
 	{
-
 		public string Name { get; set; }
-		public virtual ICollection<User> Users { get; set; }
+		public string Description { get; set; }
+		public bool InStock { get; set; }
+
 
 		public override string ToString()
 		{
-			return Name;
+			return base.Id.ToString();
 		}
 	}
 }

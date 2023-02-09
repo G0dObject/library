@@ -2,7 +2,7 @@
 
 namespace Library.Client.Model
 {
-	public class RegisterModel : IDataErrorInfo
+	internal class RegisterModel : IDataErrorInfo
 	{
 		public string UserName { get; set; } = string.Empty;
 		public string Password { get; set; } = string.Empty;
@@ -43,7 +43,5 @@ namespace Library.Client.Model
 				return Error;
 			}
 		}
-
-
 	}
 }

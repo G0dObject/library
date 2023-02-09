@@ -8,12 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Public\Dvd.png" />
     <None Remove="Public\Eye.png" />
+    <None Remove="Public\Library.png" />
+    <None Remove="Public\mine.jpg" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Aspose.Words" Version="22.11.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="6.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.9" />
     <PackageReference Include="Microsoft.Office.Interop.Word" Version="15.0.4797.1004" />
     <PackageReference Include="ReactiveValidation" Version="2.0.1" />
@@ -26,8 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Public\Dvd.png" />
+    <Resource Include="Public\Library.png" />
     <Resource Include="Public\Eye.png" />
+    <Resource Include="Public\mine.jpg" />
   </ItemGroup>
 
   <ItemGroup>
