@@ -21,7 +21,7 @@ namespace Library.Application.Authentication.Register
 				Role = await _unitOfWork.Authorization.GetDefaultRole()
 			};
 
-			Task<User> result = _unitOfWork.Authorization.CreateAsync(current);
+			User result = await _unitOfWork.Authorization.CreateAsync(current);
 			return result.Id;
 		}
 	}

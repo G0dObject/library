@@ -8,9 +8,11 @@
 		xmlns:controls="http://metro.mahapps.com/winf/xaml/controls"
 		mc:Ignorable="d"
 		Title="Authentication" Height="1080" Width="1920
-" WindowStartupLocation="CenterScreen" WindowStyle="None" WindowState="Maximized">
+		
+" WindowStartupLocation="CenterScreen" WindowStyle="None" WindowState="Maximized" KeyDown="Window_KeyDown">
 	<Grid>
 		<Image Margin="0,0,955,0" Source="/Public/Library.png" Stretch="Fill" StretchDirection="DownOnly"/>
+		<Label Content="Справка вызывается нажатием F1"  FontSize="20" HorizontalAlignment="Left" Margin="1532,1035,0,0" VerticalAlignment="Top" Height="45" Width="388" Foreground="White"/>
 
 		<Grid  Panel.ZIndex="-1" Height="1080" Margin="960,0,0,0" VerticalAlignment="Center">
 			<Grid.Background>

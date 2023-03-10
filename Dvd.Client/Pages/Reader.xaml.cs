@@ -4,11 +4,18 @@ using Client.Pages;
 using Library.Application.Books.Lease;
 using Library.Application.Interfaces;
 using Library.Domain.Entity.Tables;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Printing;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
+using System.Windows.Input;
 using System.Windows.Media;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace Library.Client.Pages
 {
@@ -29,7 +36,7 @@ namespace Library.Client.Pages
 			datagrid.Items.Clear();
 			CartGrid.Items.Clear();
 
-			System.Threading.Tasks.Task<System.Collections.Generic.List<Book>> Books = _unitOfWork.Book.GetAllAsync();
+			Task<System.Collections.Generic.List<Book>> Books = _unitOfWork.Book.GetAllAsync();
 			datagrid.AutoGenerateColumns = true;
 			datagrid.BeginningEdit += (s, ss) => ss.Cancel = true;
 
@@ -42,7 +49,6 @@ namespace Library.Client.Pages
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-
 			for (Visual? vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual)
 			{
 				if (vis is DataGridRow row)
@@ -50,7 +56,7 @@ namespace Library.Client.Pages
 					Book? item = row.Item as Book;
 
 					_ = CartGrid.Items.Add(item!);
-					Button? sender1 = sender as Button;
+					System.Windows.Controls.Button? sender1 = sender as System.Windows.Controls.Button;
 					sender1!.IsEnabled = false;
 				}
 			}
@@ -72,7 +78,7 @@ namespace Library.Client.Pages
 			PrintDocument printDocument = new();
 			printDocument.PrintPage += PrintPageHandler;
 
-			PrintDialog printDialog = new();
+			System.Windows.Controls.PrintDialog printDialog = new();
 
 			if (printDialog.ShowDialog() == true)
 			{
@@ -100,6 +106,21 @@ namespace Library.Client.Pages
 		{
 			new Authentication().Show();
 			this.Close();
+		}
+
+		private void Grid_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+		{
+			Helper.Open(e);
+		}
+
+		private async void Button_Click_4(object sender, RoutedEventArgs e)
+		{
+			datagrid.Items.Clear();
+			List<Book> all = await _unitOfWork.Book.GetAllAsync();
+
+			List<Book> items = all.Where(f => f.Name.ToLower().StartsWith(SearchField.Text.ToLower())).ToList();
+			items.ForEach(item => datagrid.Items.Add(item));
+
 		}
 	}
 }

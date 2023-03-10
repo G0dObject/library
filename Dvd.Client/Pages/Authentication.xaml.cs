@@ -5,12 +5,13 @@ using Library.Client.Pages;
 using Library.Domain.Entity.Tables;
 using Library.Persistent;
 using Microsoft.EntityFrameworkCore;
+using MySqlX.XDevAPI.Common;
 using System;
 using System.Windows;
-
+using static System.Threading.Tasks.Task;
 namespace Client.Pages
 {
-	public partial class Authentication : Window
+	public partial class Authentication : System.Windows.Window
 	{
 		private readonly Context _context;
 		private readonly UnitOfWork _unitOfWork;
@@ -24,7 +25,8 @@ namespace Client.Pages
 
 			_context = new Context(new DbContextOptions<Context>());
 			_unitOfWork = new UnitOfWork(_context);
-			System.Threading.Tasks.Task res = _unitOfWork.Authorization.CreateAdmin();
+			_unitOfWork.Authorization.CreateAdmin();
+			_unitOfWork.Authorization.CreateManager();
 			InitializeComponent();
 			DataContext = command;
 		}
@@ -43,8 +45,9 @@ namespace Client.Pages
 						_ = MessageBox.Show("user already registered");
 						return;
 					}
-					_userid = await handler.Handle(registerCommand);
 
+					_userid = await handler.Handle(registerCommand);
+					_role = await _unitOfWork.Authorization.GetRole(_userid);
 					Ok();
 				}
 				catch (Exception)
@@ -91,26 +94,39 @@ namespace Client.Pages
 		}
 		private void Ok()
 		{
-			Hide();
-			Window mainWindow;
+			try
+			{
+				Hide();
+				Window mainWindow;
 
-			if (_role.Name == "Admin" | _role.Name == "Manager")
-			{
-				mainWindow = new Admin(_role, _unitOfWork);
+				if (_role.Name == "Admin" | _role.Name == "Manager")
+				{
+					mainWindow = new Admin(_role, _unitOfWork);
+				}
+				else if (_role.Name == "User")
+				{
+					mainWindow = new Reader(_unitOfWork, _userid);
+				}
+				else
+				{
+					throw new Exception();
+				}
+
+				mainWindow.Show();
+
+				Close();
 			}
-			else if (_role.Name == "User")
+			catch
 			{
-				mainWindow = new Reader(_unitOfWork, _userid);
-			}
-			else
-			{
-				throw new Exception();
+				MessageBox.Show("Что-то пошло не так");
 			}
 
-			mainWindow.Show();
-			Close();
+		}
+
+
+		private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+		{
+			Helper.Open(e);
 		}
 	}
 }
-
-

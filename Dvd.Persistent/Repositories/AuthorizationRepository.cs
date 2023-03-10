@@ -30,6 +30,15 @@ namespace Library.Persistent.Repositories
 			}
 		}
 
+		public async Task CreateManager()
+		{
+			if (ExistRole("Manager").Result == false)
+			{
+				_ = await _context!.Roles!.AddAsync(new Role() { Name = "Manager" });
+				_ = await _context!.SaveChangesAsync();
+			}
+		}
+
 		public async Task<Role> GetDefaultRole()
 		{
 			if (await _context!.Roles!.FirstOrDefaultAsync(f => f.Name == _defaultRole) == null)
@@ -43,6 +52,11 @@ namespace Library.Persistent.Repositories
 		public async Task<bool> Exist(string name)
 		{
 			User? c = await _context!.Users!.FirstOrDefaultAsync(u => u.UserName == name);
+			return c != null;
+		}
+		public async Task<bool> ExistRole(string name)
+		{
+			Role? c = await _context!.Roles!.FirstOrDefaultAsync(u => u.Name == name);
 			return c != null;
 		}
 		public async Task<Role> GetRole(int id)

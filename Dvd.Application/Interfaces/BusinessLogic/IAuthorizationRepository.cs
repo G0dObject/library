@@ -8,6 +8,7 @@ namespace Library.Application.Interfaces.BusinessLogic
 		public Task<Role> GetDefaultRole();
 		public Task<Role> GetRole(int id);
 		public Task CreateAdmin();
+		public Task CreateManager();
 		public Task<bool> Exist(string name);
 	}
 }

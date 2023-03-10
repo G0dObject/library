@@ -2,6 +2,8 @@
 using Library.Domain.Entity.Tables;
 using Library.Persistent.EntityTypeConfiguration;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using MySql.EntityFrameworkCore;
 using System.Configuration;
 
 namespace Library.Persistent
@@ -19,9 +21,17 @@ namespace Library.Persistent
 		{
 			if (!optionsBuilder.IsConfigured)
 			{
-				string g = (ConfigurationManager.ConnectionStrings["MySql"].ConnectionString);
-				DbContextOptionsBuilder dbb = optionsBuilder.UseMySQL(ConfigurationManager.ConnectionStrings["MySql"].ConnectionString);
-
+				bool boolean = bool.Parse(ConfigurationManager.AppSettings["IsSqlLite"] ?? "true");
+				if (boolean)
+				{
+					string g = (ConfigurationManager.ConnectionStrings["SqLite"].ConnectionString);
+					DbContextOptionsBuilder dbb = optionsBuilder.UseSqlite(g);
+				}
+				else
+				{
+					string g = (ConfigurationManager.ConnectionStrings["MySql"].ConnectionString);
+					DbContextOptionsBuilder dbb = optionsBuilder.UseMySQL(g);
+				}
 			}
 		}
 
