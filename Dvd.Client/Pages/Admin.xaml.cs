@@ -3,13 +3,17 @@ using Library.Domain.Entity.Base;
 using Library.Domain.Entity.Tables;
 using Library.Persistent;
 using Microsoft.AspNetCore.Components;
+using MySqlX.XDevAPI.Relational;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Media3D;
 using System.Windows.Threading;
 
 namespace Library.Client.Pages
@@ -21,6 +25,7 @@ namespace Library.Client.Pages
 		private IEnumerable<EntityBase> _datagridContext;
 		private readonly UnitOfWork _unitOfWork;
 		private readonly bool _initialize = false;
+		private string _text;
 
 		public Admin(Role role, UnitOfWork unitOfWork)
 		{
@@ -76,7 +81,49 @@ namespace Library.Client.Pages
 			datagrid.ItemsSource = _datagridContext;
 		}
 
+		private void Button_Click_6(object sender, RoutedEventArgs e)
+		{
+			foreach (object? item in _datagridContext)
+			{
 
+				switch (_tableindex)
+				{
+					case 0:
+						Book? Book = item as Book;
+						string strb = $"Название = {Book!.Name};\nОписание = {Book.Description};\nКоличество = {Book.Amount};\n\n";
+						_text += strb;
+						break;
+					case 1:
+						Rented? Rented = item as Rented;
+						string strr = $"Номер пользователя = {Rented.User.Id};\nНомер книги = {Rented.Book.Id};\nВремя выдачи = {Rented.TakeTime.ToString("yyyy:MM:dd")};\nВремя сдачи = {Rented.DeliveryTime.ToString("yyyy:MM:dd")};\n\n";
+						_text += strr;
+						break;
+					case 2:
+						User? User = item as User;
+						string stru = $"Номер пользователя = {User!.Id};\nЛогин пользователя = {User.UserName};\n";
+						_text += stru;
+						break;
+					case 3:
+						Role? Role = item as Role;
+						string strro = $"Номер роли = {Role!.Id};\nИмя роли = {Role!.Name};\n\n";
+						_text += strro;
+						break;
+				}
+			}
+			PrintDocument printDocument = new();
+			printDocument.PrintPage += PrintPageHandler;
+
+			PrintDialog printDialog = new();
+
+			if (printDialog.ShowDialog() == true)
+			{
+				printDocument.Print();
+			}
+		}
+		private void PrintPageHandler(object sender, PrintPageEventArgs e)
+		{
+			e!.Graphics!.DrawString(_text, new Font("Arial", 14), System.Drawing.Brushes.Black, 0, 0);
+		}
 		public void datagrid_RowEditEnding_1(object sender, DataGridRowEditEndingEventArgs e)
 		{
 			_ = Dispatcher.InvokeAsync(new Action(async () =>
@@ -147,7 +194,7 @@ namespace Library.Client.Pages
 						datagrid.ItemsSource = (_datagridContext as IEnumerable<Rented>).Where(f => f.User.Id.ToString().ToLower().StartsWith(SearchField.Text.ToLower())).ToList();
 						break;
 					case 2:
-						datagrid.ItemsSource = (_datagridContext as IEnumerable<User>).Where(f => f.UserName.ToLower().StartsWith(SearchField.Text.ToLower())).ToList();
+						datagrid.ItemsSource = (_datagridContext as IEnumerable<User>).Where(f => f.Id.ToString().StartsWith(SearchField.Text.ToLower())).ToList();
 						break;
 					case 3:
 						datagrid.ItemsSource = (_datagridContext as IEnumerable<Role>).Where(f => f.Name.ToLower().StartsWith(SearchField.Text.ToLower())).ToList();
@@ -157,9 +204,6 @@ namespace Library.Client.Pages
 				}
 			}
 			finally { }
-
-
-
 
 			//_datagridContext.Where()
 		}

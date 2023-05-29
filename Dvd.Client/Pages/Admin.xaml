@@ -21,7 +21,12 @@
 
 		<DataGrid Name="datagrid"  EnableRowVirtualization="True"  Margin="10,0,667,0"  PreviewKeyDown="datagrid_KeyDown" CanUserDeleteRows="False" RowEditEnding="datagrid_RowEditEnding_1" >
 			<DataGrid.Columns>
+				<DataGridTemplateColumn >
+					<DataGridTemplateColumn.Header>
+						<Button BorderThickness="0" Content="🖶"  FontSize="35" FontWeight="Heavy" HorizontalAlignment="Left"  VerticalAlignment="Top" Height="49" RenderTransformOrigin="0.58,0.586" Width="49" Click="Button_Click_6" Background="{x:Null}"/>
+					</DataGridTemplateColumn.Header>
 
+				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
 

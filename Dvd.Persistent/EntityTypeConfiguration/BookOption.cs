@@ -10,7 +10,7 @@ namespace Library.Persistent.EntityTypeConfiguration
 		{
 			_ = builder.HasKey(r => r.Id);
 			_ = builder.Property(r => r.Name);
-			_ = builder.Property(r => r.InStock).HasDefaultValue(false);
+			_ = builder.Property(r => r.Amount).HasDefaultValue(0);
 			_ = builder.Property(r => r.Description);
 		}
 	}

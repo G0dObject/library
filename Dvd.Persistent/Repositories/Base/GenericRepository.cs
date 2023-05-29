@@ -11,11 +11,18 @@ namespace Library.Persistent.Repositories.Base
 			_context = context;
 
 		}
-		public async Task<T> CreateAsync(T entity)
+		public async Task<T?> CreateAsync(T entity)
 		{
+			try
+			{
+				_ = await _context.Set<T>().AddAsync(entity);
+				_ = await _context.SaveChangesAsync();
+			}
+			catch (Exception)
+			{
 
-			_ = await _context.Set<T>().AddAsync(entity);
-			_ = await _context.SaveChangesAsync();
+			}
+
 			return entity;
 		}
 

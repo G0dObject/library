@@ -9,11 +9,11 @@
         Title="Reader" Height="1080" Width="1920" WindowStartupLocation="CenterScreen" WindowStyle="None" WindowState="Maximized">
 	<Grid Margin="0,0,0,0"  >
 		<Grid Margin="0,0,0,0" KeyDown="Grid_KeyDown">
-			<DataGrid FontSize="30" CanUserResizeColumns="False" Name="datagrid" BorderBrush="#FF07CAC1" Background="#FF07CAC1" HorizontalAlignment="Left" Width="867"   >
+			<DataGrid FontSize="30" CanUserResizeColumns="False" Name="datagrid" BorderBrush="#FF07CAC1" Background="#FF07CAC1" HorizontalAlignment="Left" Width="867"  >
 				<DataGrid.Columns>
 					<DataGridTextColumn Binding="{Binding Path=Name}" Header="Название" Width="200"/>
 					<DataGridTextColumn Binding="{Binding Path=Description}" Header="Описание" Width="200"/>
-					<DataGridTextColumn Binding="{Binding Path=InStock}" Header="Наличие" Width="*"/>
+					<DataGridTextColumn Binding="{Binding Path=Amount}" Header="Наличие" Width="*"/>
 
 					<DataGridTemplateColumn  Header="Получить" Width="200" x:Name="AddButtonColumn">
 						<DataGridTemplateColumn.CellTemplate >
@@ -26,11 +26,18 @@
 						<DataGridTemplateColumn.Header>
 							<Button BorderThickness="0" Content="🔃"  FontSize="30" HorizontalAlignment="Left"  VerticalAlignment="Top" Height="49" RenderTransformOrigin="0.58,0.586" Width="49" Click="LoadData_Click" Background="{x:Null}"/>
 						</DataGridTemplateColumn.Header>
+	
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn >
+						<DataGridTemplateColumn.Header>
+							<Button BorderThickness="0" Content="🖶"  FontSize="35" FontWeight="Heavy" HorizontalAlignment="Left"  VerticalAlignment="Top" Height="49" RenderTransformOrigin="0.58,0.586" Width="49" Click="Button_Click_1" Background="{x:Null}"/>
+						</DataGridTemplateColumn.Header>
+
 					</DataGridTemplateColumn>
 				</DataGrid.Columns>
 				
 			</DataGrid>
-			<TextBox Name="SearchField" HorizontalAlignment="Left"  FontSize="25" Margin="1280,0,0,0" TextWrapping="Wrap" Text="Поиск" VerticalAlignment="Top" Width="219" Height="50" Background="#FFEAEAEA"/>
+			<TextBox Name="SearchField" HorizontalAlignment="Left"  FontSize="25" Margin="1280,0,0,0" TextWrapping="Wrap" Text="Поиск" VerticalAlignment="Top" Width="219" Height="50" Background="#FFEAEAEA" TextChanged="SearchField_TextChanged"/>
 			<Button Content="🔍" Background="Transparent" FontSize="25" BorderThickness="0" HorizontalAlignment="Left" Margin="1499,5,0,0" VerticalAlignment="Top" Height="40" Width="44" Click="Button_Click_4"/>
 			<Button Content="Оформить аренду" FontSize="30" HorizontalAlignment="Left" Margin="1188,935,0,0" VerticalAlignment="Top" Height="98" Width="338" Click="Button_Click_2"/>
 			<Label Content="Справка вызывается нажатием F1" FontSize="20" HorizontalAlignment="Left" Margin="1532,1035,0,0" VerticalAlignment="Top" Height="45" Width="388"/>

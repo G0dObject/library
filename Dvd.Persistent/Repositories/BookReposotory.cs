@@ -21,7 +21,16 @@ namespace Library.Persistent.Repositories
 			DateTime now = DateTime.UtcNow;
 
 			_ = await _context!.Renteds!.AddAsync(new Rented { User = user, Book = book, TakeTime = now.Date, DeliveryTime = now.AddDays(10).Date });
-			book!.InStock = false;
+			if (book.Amount == 1)
+			{
+				book!.Amount -= 1;
+			}
+			if (book.Amount <= 1)
+			{
+				book.InStock = false;
+				book!.Amount = 0;
+			}
+
 			_ = _context.SaveChanges();
 			return 0;
 		}

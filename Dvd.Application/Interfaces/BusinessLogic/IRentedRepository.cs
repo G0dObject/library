@@ -5,6 +5,6 @@ namespace Library.Application.Interfaces.BusinessLogic
 {
 	public interface IRentedRepository : IGenericRepository<Rented>
 	{
-
+		public Task<Rented> GetByBookId(int id);
 	}
 }

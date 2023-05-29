@@ -4,6 +4,7 @@ using Client.Pages;
 using Library.Application.Books.Lease;
 using Library.Application.Interfaces;
 using Library.Domain.Entity.Tables;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Printing;
@@ -12,9 +13,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Forms;
+
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Media3D;
 using static System.Reflection.Metadata.BlobBuilder;
 
 namespace Library.Client.Pages
@@ -62,34 +64,7 @@ namespace Library.Client.Pages
 			}
 		}
 
-		private void Button_Click_1(object sender, RoutedEventArgs e)
-		{
-			CreateDocument();
-		}
 
-		private void CreateDocument()
-		{
-			foreach (object? item in CartGrid.Items)
-			{
-				Book? Book = item as Book;
-				string str = $"{Book!.Name} {Book.Description} {Book.InStock}";
-				_text += str;
-			}
-			PrintDocument printDocument = new();
-			printDocument.PrintPage += PrintPageHandler;
-
-			System.Windows.Controls.PrintDialog printDialog = new();
-
-			if (printDialog.ShowDialog() == true)
-			{
-				printDocument.Print();
-			}
-		}
-
-		private void PrintPageHandler(object sender, PrintPageEventArgs e)
-		{
-			e!.Graphics!.DrawString(_text, new Font("Arial", 14), System.Drawing.Brushes.Black, 0, 0);
-		}
 
 		private void Button_Click_2(object sender, RoutedEventArgs e)
 		{
@@ -99,7 +74,9 @@ namespace Library.Client.Pages
 				LeaseArrangeCommand request = new() { UserId = _userid, BookId = item.Id };
 				_ = leaseArrangeCommandHandler.Handle(request);
 			}
+			PrintData(true);
 			LoadData();
+
 		}
 
 		private void Button_Click_3(object sender, RoutedEventArgs e)
@@ -120,6 +97,50 @@ namespace Library.Client.Pages
 
 			List<Book> items = all.Where(f => f.Name.ToLower().StartsWith(SearchField.Text.ToLower())).ToList();
 			items.ForEach(item => datagrid.Items.Add(item));
+		}
+
+		private void PrintData(bool iscart)
+		{
+			ItemCollection items = iscart ? CartGrid.Items : datagrid.Items;
+			foreach (object? item in items)
+			{
+				Book? Book = item as Book;
+				if (iscart)
+				{
+					Rented? rented = _unitOfWork.Rented.GetByIdAsync(Book.Id).Result;
+					_text += $"Название = {Book!.Name};\nОписание = {Book.Description};\nВремя выдачи = {rented.TakeTime.ToString("yyyy:MM:dd")};\nВремя сдачи = {rented.DeliveryTime.ToString("yyyy:MM:dd")};\n\n";
+				}
+				else
+				{
+					_text += $"Название = {Book!.Name};\nОписание = {Book.Description};\n\n";
+				}
+
+			}
+			_text += $"\nНомер пользователя = {_userid};\n";
+			PrintDocument printDocument = new();
+			printDocument.PrintPage += PrintPageHandler;
+			PrintDialog printDialog = new();
+
+			if (printDialog.ShowDialog() == true)
+			{
+				printDocument.Print();
+
+			}
+			_text = "";
+		}
+		private void PrintPageHandler(object sender, PrintPageEventArgs e)
+		{
+			e!.Graphics!.DrawString(_text, new Font("Arial", 14), System.Drawing.Brushes.Black, 0, 0);
+		}
+
+		private void Button_Click_1(object sender, RoutedEventArgs e)
+		{
+			PrintData(false);
+			LoadData();
+		}
+
+		private void SearchField_TextChanged(object sender, TextChangedEventArgs e)
+		{
 
 		}
 	}
