@@ -3,29 +3,29 @@ using Library.Domain.Entity.Base;
 using Library.Domain.Entity.Tables;
 using Library.Persistent;
 using Microsoft.AspNetCore.Components;
-using MySqlX.XDevAPI.Relational;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Printing;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Media3D;
 using System.Windows.Threading;
 
 namespace Library.Client.Pages
 {
-	public partial class Admin : Window
+	public partial class Admin : System.Windows.Window
 	{
 		private readonly Role _role;
 		private int _tableindex = 0;
 		private IEnumerable<EntityBase> _datagridContext;
 		private readonly UnitOfWork _unitOfWork;
 		private readonly bool _initialize = false;
-		private string _text;
+		private readonly string _text;
+		private int row = 0;
 
 		public Admin(Role role, UnitOfWork unitOfWork)
 		{
@@ -39,6 +39,7 @@ namespace Library.Client.Pages
 			_initialize = true;
 			LoadData(0);
 			ManagerOff();
+
 		}
 
 		private void ManagerOff()
@@ -60,65 +61,107 @@ namespace Library.Client.Pages
 		}
 		private async void LoadData(int index)
 		{
-			switch (index)
+			_datagridContext = index switch
 			{
-				case 0:
-					_datagridContext = await _unitOfWork.Book.GetAllAsync();
-					break;
-				case 1:
-					_datagridContext = await _unitOfWork.Rented.GetAllAsync();
-					break;
-				case 2:
-					_datagridContext = await _unitOfWork.User.GetAllAsync();
-					break;
-				case 3:
-					_datagridContext = await _unitOfWork.Role.GetAllAsync();
-					break;
-				default:
-					_datagridContext = await _unitOfWork.Book.GetAllAsync();
-					break;
-			}
+				0 => await _unitOfWork.Book.GetAllAsync(),
+				1 => await _unitOfWork.Rented.GetAllAsync(),
+				2 => await _unitOfWork.User.GetAllAsync(),
+				3 => await _unitOfWork.Role.GetAllAsync(),
+				_ => await _unitOfWork.Book.GetAllAsync(),
+			};
 			datagrid.ItemsSource = _datagridContext;
 		}
 
-		private void Button_Click_6(object sender, RoutedEventArgs e)
-		{
-			foreach (object? item in _datagridContext)
-			{
 
-				switch (_tableindex)
+		public void Generate()
+		{
+			row = 0;
+
+
+			Microsoft.Office.Interop.Excel.Application app = new Microsoft.Office.Interop.Excel.Application
+			{
+				Visible = false,
+				SheetsInNewWorkbook = 2
+			};
+
+			Microsoft.Office.Interop.Excel.Workbook workBook = app.Workbooks.Add(Type.Missing);
+			app.DisplayAlerts = false;
+			Microsoft.Office.Interop.Excel.Worksheet sheet = (Microsoft.Office.Interop.Excel.Worksheet)app.Worksheets.get_Item(1);
+			sheet.Name = "Отчёт";
+
+
+			for (int j = 1; j < datagrid.Columns.Count; j++)
+			{
+				sheet.Cells[1, j] = datagrid.Columns[j].Header;
+			}
+
+			for (int i = 1; i <= datagrid.Items.Count; i++)
+			{
+				object item = datagrid.Items[i - 1];
+				Type type = item.GetType();
+
+				PropertyInfo[] property = type.GetProperties();
+
+				for (int j = 0; j < property.Length; j++)
 				{
-					case 0:
-						Book? Book = item as Book;
-						string strb = $"Название = {Book!.Name};\nОписание = {Book.Description};\nКоличество = {Book.Amount};\n\n";
-						_text += strb;
-						break;
-					case 1:
-						Rented? Rented = item as Rented;
-						string strr = $"Номер пользователя = {Rented.User.Id};\nНомер книги = {Rented.Book.Id};\nВремя выдачи = {Rented.TakeTime.ToString("yyyy:MM:dd")};\nВремя сдачи = {Rented.DeliveryTime.ToString("yyyy:MM:dd")};\n\n";
-						_text += strr;
-						break;
-					case 2:
-						User? User = item as User;
-						string stru = $"Номер пользователя = {User!.Id};\nЛогин пользователя = {User.UserName};\n";
-						_text += stru;
-						break;
-					case 3:
-						Role? Role = item as Role;
-						string strro = $"Номер роли = {Role!.Id};\nИмя роли = {Role!.Name};\n\n";
-						_text += strro;
-						break;
+					object? g = property[j].GetValue(item);
+					sheet.Cells[i + 1, j + 1] = g;
 				}
 			}
-			PrintDocument printDocument = new();
-			printDocument.PrintPage += PrintPageHandler;
 
-			PrintDialog printDialog = new();
+			app.Application.ActiveWorkbook.SaveAs($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}/report.xml",
+	Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange);
+			app.Quit();
+			System.Runtime.InteropServices.Marshal.ReleaseComObject(app);
+		}
 
-			if (printDialog.ShowDialog() == true)
-			{
-				printDocument.Print();
-			}
+
+
+
+
+		private void Button_Click_6(object sender, RoutedEventArgs e)
+		{
+
+			Generate();
+
+
+
+			//foreach (object? item in _datagridContext)
+			//{
+
+			//	switch (_tableindex)
+			//	{
+			//		case 0:
+			//			Book? Book = item as Book;
+			//			string strb = $"Название = {Book!.Name};\nОписание = {Book.Description};\nКоличество = {Book.Amount};\n\n";
+			//			_text += strb;
+			//			break;
+			//		case 1:
+			//			Rented? Rented = item as Rented;
+			//			string strr = $"Номер пользователя = {Rented.User.Id};\nНомер книги = {Rented.Book.Id};\nВремя выдачи = {Rented.TakeTime.ToString("yyyy:MM:dd")};\nВремя сдачи = {Rented.DeliveryTime.ToString("yyyy:MM:dd")};\n\n";
+			//			_text += strr;
+			//			break;
+			//		case 2:
+			//			User? User = item as User;
+			//			string stru = $"Номер пользователя = {User!.Id};\nЛогин пользователя = {User.UserName};\n";
+			//			_text += stru;
+			//			break;
+			//		case 3:
+			//			Role? Role = item as Role;
+			//			string strro = $"Номер роли = {Role!.Id};\nИмя роли = {Role!.Name};\n\n";
+			//			_text += strro;
+			//			break;
+			//	}
+			//}
+			//PrintDocument printDocument = new();
+			//printDocument.PrintPage += PrintPageHandler;
+
+			//PrintDialog printDialog = new();
+
+			//if (printDialog.ShowDialog() == true)
+			//{
+			//	printDocument.Print();
+			//}
 		}
 		private void PrintPageHandler(object sender, PrintPageEventArgs e)
 		{
@@ -212,7 +255,6 @@ namespace Library.Client.Pages
 		{
 			Helper.Open(e);
 		}
-
 
 
 	}

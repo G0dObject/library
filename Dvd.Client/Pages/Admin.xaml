@@ -19,7 +19,7 @@
 		</ComboBox>
 		<Label Content="Справка вызывается нажатием F1" FontSize="20" HorizontalAlignment="Left" Margin="1532,1035,0,0" VerticalAlignment="Top" Height="45" Width="388"/>
 
-		<DataGrid Name="datagrid"  EnableRowVirtualization="True"  Margin="10,0,667,0"  PreviewKeyDown="datagrid_KeyDown" CanUserDeleteRows="False" RowEditEnding="datagrid_RowEditEnding_1" >
+		<DataGrid Name="datagrid"  EnableRowVirtualization="True"  Margin="10,0,667,0"  PreviewKeyDown="datagrid_KeyDown" CanUserDeleteRows="False" RowEditEnding="datagrid_RowEditEnding_1"  >
 			<DataGrid.Columns>
 				<DataGridTemplateColumn >
 					<DataGridTemplateColumn.Header>
